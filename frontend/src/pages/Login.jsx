@@ -44,7 +44,7 @@ export const Login = () => {
 
     setIsSubmitting(true);
 
-    const result = await login(email, password);
+    const result = await login(email.trim(), password);
 
     setIsSubmitting(false);
 
@@ -55,13 +55,21 @@ export const Login = () => {
     }
   };
 
+  // Helper for quick filling testing accounts
+  const fillCredentials = (userEmail) => {
+    setEmail(userEmail);
+    setPassword('Password123');
+    setErrors({});
+    setApiError('');
+  };
+
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <div className="login-logo">🏢</div>
+          <div className="login-logo" aria-hidden="true">🏢</div>
           <h1>LeaveFlow Pro</h1>
-          <p>Sign in to your account</p>
+          <p>Workforce & Employee Leave Portal</p>
         </div>
 
         {apiError && (
@@ -76,7 +84,7 @@ export const Login = () => {
             <input
               type="email"
               id="email"
-              placeholder="user@example.com"
+              placeholder="name@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={errors.email ? 'input-error' : ''}
@@ -108,15 +116,39 @@ export const Login = () => {
                 <span className="button-spinner"></span> Authenticating...
               </>
             ) : (
-              'Sign In'
+              'Sign In to Dashboard'
             )}
           </button>
         </form>
 
         <div className="login-footer">
-          <p className="demo-credentials-note">
-            <strong>System Login Roles:</strong> Employee | Manager | Admin
-          </p>
+          <p className="demo-credentials-note">Quick Fill Demo Roles:</p>
+          <div className="action-buttons margin-top-sm justify-center">
+            <button
+              type="button"
+              className="btn-sm btn-secondary"
+              onClick={() => fillCredentials('emp@p7test.com')}
+              disabled={isSubmitting}
+            >
+              Employee
+            </button>
+            <button
+              type="button"
+              className="btn-sm btn-secondary"
+              onClick={() => fillCredentials('mgr@p7test.com')}
+              disabled={isSubmitting}
+            >
+              Manager
+            </button>
+            <button
+              type="button"
+              className="btn-sm btn-secondary"
+              onClick={() => fillCredentials('admin@p7test.com')}
+              disabled={isSubmitting}
+            >
+              Admin
+            </button>
+          </div>
         </div>
       </div>
     </div>
